@@ -35,22 +35,23 @@ class Parkiran extends REST_Controller {
 
     // update data parkiran
     function index_put() {
-        $id_parkiran = $this->put('kode_parkiran');
+        $kode_parkiran = $this->put('kode_parkiran');
         $data = array(
-                    'nama_parkiran'          => $this->post('nama_parkiran'),
-                    'kapasitas'          => $this->post('kapasitas'));
+        			'kode_parkiran'    => $this->put('kode_parkiran'),
+                    'nama_parkiran'      => $this->put('nama_parkiran'),
+                    'kapasitas'          => $this->put('kapasitas'));
         $this->db->where('kode_parkiran', $kode_parkiran);
         $update = $this->db->update('parkiran', $data);
         if ($update) {
-            $this->response($data, 200);
+            $this->response(array("result"=>$data, "status"=>"success"));
         } else {
-            $this->response(array('status' => 'fail', 502));
+            $this->response(array("result"=>$data, "status"=>"fail"));
         }
     }
 
     // delete parkiran
     function index_delete() {
-        $id_parkiran = $this->delete('kode_parkiran');
+        $kode_parkiran = $this->delete('kode_parkiran');
         $this->db->where('kode_parkiran', $kode_parkiran);
         $delete = $this->db->delete('parkiran');
         if ($delete) {
