@@ -9,14 +9,15 @@ class Parkir extends REST_Controller {
 
     // show data parkir
     function index_get() {
-        $no_karcis = $this->get('no_karcis');
+        $no_karcis = $this->get('kode_parkiran');
         if ($no_karcis == '') {
             $parkir = $this->db->get('parkir')->result();
         } else {
-            $this->db->where('no_karcis', $no_karcis);
+            $this->db->where('kode_parkiran', $no_karcis);
+            $this->db->where('status', "1");
             $parkir = $this->db->get('parkir')->result();
         }
-        $this->response($parkir, 200);
+        $this->response(array("result"=>$parkir, "status"=>"success"));
     }
 
     // insert new data to parkir
@@ -37,10 +38,10 @@ class Parkir extends REST_Controller {
 
     // update data parkir
     function index_put() {
-        $id_parkir = $this->put('no_karcis');
+        $no_karcis = $this->put('no_karcis');
         $data = array(
-                    'plat_nomor'          => $this->post('plat_nomor'),
-                    'kode_parkiran'       => $this->post('kode_parkiran'));
+                    'waktu_keluar'        => $this->put('waktu_keluar'),
+                    'status'              => "2");
         $this->db->where('no_karcis', $no_karcis);
         $update = $this->db->update('parkir', $data);
         if ($update) {
